@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robux Store</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 10px; }
+        .price-card { background: #fff; border-radius: 10px; padding: 15px; margin: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .btn { background: #0088cc; color: white; border: none; padding: 10px; border-radius: 5px; width: 100%; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Купить Robux</h2>
+        <p>1 Robux = 0.50 руб. | Мин. покупка: 20 Robux</p>
+
+        <div class="price-card" onclick="selectRobux(20)">
+            <h3>20 Robux</h3>
+            <p>10 руб.</p>
+        </div>
+
+        <div class="price-card" onclick="selectRobux(50)">
+            <h3>50 Robux</h3>
+            <p>25 руб.</p>
+        </div>
+
+        <input type="number" id="customRobux" placeholder="Или введите количество" min="20">
+        <button class="btn" onclick="processPayment()">Купить</button>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        function selectRobux(robux) {
+            const amount = robux * 0.5;
+            tg.sendData(JSON.stringify({ robux, amount }));
+            tg.close();
+        }
+
+        function processPayment() {
+            const robux = parseInt(document.getElementById("customRobux").value);
+            if (robux >= 20) {
+                selectRobux(robux);
+            } else {
+                alert("Минимум 20 Robux!");
+            }
+        }
+    </script>
+</body>
+</html>
